@@ -12,3 +12,4 @@ to evaluate nodejs event loop for.
 ## Screenshots
 ![alt text](https://github.com/nepali-prabhat/eventloop/blob/main/resources/graph.png?raw=true)
 ![alt text](https://github.com/nepali-prabhat/eventloop/blob/main/resources/code_preview.png?raw=true)
+![alt text](https://github.com/nepali-prabhat/eventloop/blob/main/resources/terminal_output.png?raw=true)
