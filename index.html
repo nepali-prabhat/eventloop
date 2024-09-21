@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>JSON Array Navigator</title>
+        <script src="./node_modules/@viz-js/viz/lib/viz-standalone.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style></style>
+    </head>
+    <body class="relative h-screen w-screen bg-white">
+        <header class="mb-4 text-center">
+            <h1
+                class="text-center text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
+            >
+                NodeJS Event Loop
+                <span
+                    class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-no-repeat bg-bottom p-1 text-white"
+                >
+                    Navigator
+                </span>
+            </h1>
+            <p class="text-center mb-3">
+                After you run a nodejs script, <code>data.json</code> file is
+                created. This web page reads that data and renders a graph.
+                Press next and previous to go through each step.
+            </p>
+
+            <div class="flex justify-center items-center">
+                <button
+                    id="startBtn"
+                    type="button"
+                    class="inline-flex items-center hover:ring-4 hover:ring-black hover:text-orange disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2"
+                >
+                    <svg
+                        class="w-6 h-6"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m17 16-4-4 4-4m-6 8-4-4 4-4"
+                        />
+                    </svg>
+                </button>
+                <button
+                    id="prevBtn"
+                    type="button"
+                    disabled
+                    class="inline-flex items-center hover:ring-4 hover:ring-black hover:text-orange disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2"
+                >
+                    <svg
+                        class="w-6 h-6"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m14 8-4 4 4 4"
+                        />
+                    </svg>
+
+                    <span> Previous </span>
+                </button>
+                <button
+                    id="nextBtn"
+                    type="button"
+                    disabled
+                    class="inline-flex items-center hover:ring-4 hover:ring-black hover:text-orange disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2"
+                >
+                    <span> Next </span>
+                    <svg
+                        class="w-6 h-6"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m10 16 4-4-4-4"
+                        />
+                    </svg>
+                </button>
+                <button
+                    id="endBtn"
+                    type="button"
+                    class="inline-flex items-center hover:ring-4 hover:ring-black hover:text-orange disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2"
+                >
+                    <svg
+                        class="w-6 h-6"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m7 16 4-4-4-4m6 8 4-4-4-4"
+                        />
+                    </svg>
+                </button>
+            </div>
+            <p id="count" class="text-xs"></p>
+        </header>
+        <!-- Display the current JSON item -->
+        <section id="content" class="flex justify-center"></section>
+
+        <script>
+            let dataArray = [];
+            let currentIndex = 0;
+            let viz;
+
+            // Fetch the JSON data when the page loads
+            window.onload = function () {
+                fetch("./data.json")
+                    .then(response => response.json())
+                    .then(data => {
+                        dataArray = data.slice(1);
+                        Viz.instance().then(function (v) {
+                            viz = v;
+                            displayItem(currentIndex);
+                            updateButtons();
+                            updateCount();
+                        });
+                    })
+                    .catch(error => {
+                        document.getElementById("content").innerText =
+                            "Failed to load data.json";
+                        console.error("Error loading data.json:", error);
+                    });
+            };
+
+            // Display the current item
+            function displayItem(index) {
+                const contentDiv = document.getElementById("content");
+                const s = viz.renderSVGElement(dataArray[index]);
+                // NOTE: hack, bad
+                const polygons = s.getElementsByTagName("polygon");
+                for (let i = 0; i < polygons.length; i++) {
+                    const polygon = polygons[i];
+                    const fillColor = polygon.getAttribute("fill");
+                    const strokeColor = polygon.getAttribute("stroke");
+                    if (fillColor === "white" && strokeColor === "none") {
+                        polygon.parentNode.removeChild(polygon);
+                    }
+                }
+
+                contentDiv.replaceChildren(s);
+            }
+
+            // Update button states (disable if no previous/next)
+            function updateButtons() {
+                document.getElementById("prevBtn").disabled = currentIndex <= 0;
+                document.getElementById("nextBtn").disabled =
+                    currentIndex >= dataArray.length - 1;
+                document.getElementById("startBtn").disabled =
+                    currentIndex <= 0;
+                document.getElementById("endBtn").disabled =
+                    currentIndex >= dataArray.length - 1;
+            }
+            function updateCount() {
+                document.getElementById("count").innerText = `${
+                    currentIndex + 1
+                }/${dataArray.length}`;
+            }
+
+            // Previous button click
+            document
+                .getElementById("prevBtn")
+                .addEventListener("click", function (e) {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        displayItem(currentIndex);
+                        updateButtons();
+                        updateCount();
+                    }
+                });
+
+            // Next button click
+            document
+                .getElementById("nextBtn")
+                .addEventListener("click", function () {
+                    if (currentIndex < dataArray.length - 1) {
+                        currentIndex++;
+                        displayItem(currentIndex);
+                        updateButtons();
+                        updateCount();
+                    }
+                });
+
+            // Start button click
+            document
+                .getElementById("startBtn")
+                .addEventListener("click", function () {
+                    currentIndex = 0;
+                    displayItem(currentIndex);
+                    updateButtons();
+                    updateCount();
+                });
+
+            // End button click
+            document
+                .getElementById("endBtn")
+                .addEventListener("click", function () {
+                    currentIndex = Math.max(dataArray.length - 1, 0);
+                    displayItem(currentIndex);
+                    updateButtons();
+                    updateCount();
+                });
+        </script>
+        <div
+            class="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]"
+        ></div>
+        <!-- <div class="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div> -->
+    </body>
+</html>
