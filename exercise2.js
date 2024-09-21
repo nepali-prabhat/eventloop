@@ -1,3 +1,5 @@
+import "./hook.js";
+
 setTimeout(() => {
     console.log("t1");
 }, 0);

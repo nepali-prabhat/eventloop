@@ -3,15 +3,30 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>JSON Array Navigator</title>
+        <title>Nodejs Event Loop Navigator</title>
+
+        <link
+            href="node_modules/pagedone/src/css/pagedone.css"
+            rel="stylesheet"
+        />
+
+        <script src="node_modules/pagedone/src/js/pagedone.js"></script>
+
         <script src="./node_modules/@viz-js/viz/lib/viz-standalone.js"></script>
         <script src="https://cdn.tailwindcss.com"></script>
-        <style></style>
+        <script
+            type="module"
+            src="./node_modules/@vanillawc/wc-codemirror/index.js"
+        ></script>
+        <script
+            type="module"
+            src="./node_modules/@vanillawc/wc-codemirror/mode/javascript/javascript.js"
+        ></script>
     </head>
-    <body class="relative h-screen w-screen bg-white">
-        <header class="mb-4 text-center">
+    <body class="pt-4 relative w-screen bg-white">
+        <header class="text-center">
             <h1
-                class="text-center text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
+                class="text-center text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl mb-2"
             >
                 NodeJS Event Loop
                 <span
@@ -23,14 +38,17 @@
             <p class="text-center mb-3">
                 After you run a nodejs script, <code>data.json</code> file is
                 created. This web page reads that data and renders a graph.
-                Press next and previous to go through each step.
+                <br />
+                Press next and previous to go through the graph.
             </p>
 
-            <div class="flex justify-center items-center">
+            <div
+                class="flex justify-center items-center bg-black text-white pt-2"
+            >
                 <button
                     id="startBtn"
                     type="button"
-                    class="inline-flex items-center hover:ring-4 hover:ring-black hover:text-orange disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2"
+                    class="inline-flex items-center hover:bg-white hover:text-black disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2"
                 >
                     <svg
                         class="w-6 h-6"
@@ -54,7 +72,7 @@
                     id="prevBtn"
                     type="button"
                     disabled
-                    class="inline-flex items-center hover:ring-4 hover:ring-black hover:text-orange disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2"
+                    class="inline-flex items-center hover:bg-white hover:text-black hover:text-orange disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2"
                 >
                     <svg
                         class="w-6 h-6"
@@ -76,11 +94,12 @@
 
                     <span> Previous </span>
                 </button>
+                <p id="count" class="mb-1 text-xs font-bold px-3 py-2.5"></p>
                 <button
                     id="nextBtn"
                     type="button"
                     disabled
-                    class="inline-flex items-center hover:ring-4 hover:ring-black hover:text-orange disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2"
+                    class="inline-flex items-center hover:bg-white hover:text-black hover:text-orange disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2"
                 >
                     <span> Next </span>
                     <svg
@@ -104,7 +123,7 @@
                 <button
                     id="endBtn"
                     type="button"
-                    class="inline-flex items-center hover:ring-4 hover:ring-black hover:text-orange disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2"
+                    class="inline-flex items-center hover:bg-white hover:text-black disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2"
                 >
                     <svg
                         class="w-6 h-6"
@@ -125,28 +144,74 @@
                     </svg>
                 </button>
             </div>
-            <p id="count" class="text-xs"></p>
         </header>
         <!-- Display the current JSON item -->
-        <section id="content" class="flex justify-center"></section>
+        <section class="flex flex-row justify-center items-start">
+            <wc-codemirror
+                id="editor"
+                mode="javascript"
+                line-numbers
+                theme="gruvbox-dark"
+            >
+                <link
+                    rel="stylesheet"
+                    href="node_modules/@vanillawc/wc-codemirror/theme/gruvbox-dark.css"
+                />
+            </wc-codemirror>
+
+            <div class="flex-1 relative">
+                <div id="content"></div>
+                <button
+                    type="button"
+                    class="flex flex-col fixed bottom-0 right-0  items-center right-2 modal-button group px-2 py-2 font-md cursor-pointer bg-black text-white hover:bg-white hover:text-black hover:ring-4 hover:ring-black"
+                    data-pd-overlay="#pd-basic-modal"
+                    data-modal-target="pd-basic-modal"
+                    data-modal-toggle="pd-basic-modal"
+                >
+                    Event Loop Image
+                    <svg
+                        class="w-6 h-6"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M18 14v4.833A1.166 1.166 0 0 1 16.833 20H5.167A1.167 1.167 0 0 1 4 18.833V7.167A1.166 1.166 0 0 1 5.167 6h4.618m4.447-2H20v5.768m-7.889 2.121 7.778-7.778"
+                        />
+                    </svg>
+                </button>
+            </div>
+        </section>
 
         <script>
             let dataArray = [];
             let currentIndex = 0;
             let viz;
+            let file = "";
 
             // Fetch the JSON data when the page loads
             window.onload = function () {
                 fetch("./data.json")
                     .then(response => response.json())
                     .then(data => {
-                        dataArray = data.slice(1);
+                        dataArray = data.asyncData.slice(1);
                         Viz.instance().then(function (v) {
                             viz = v;
                             displayItem(currentIndex);
                             updateButtons();
                             updateCount();
                         });
+                        document.getElementById(
+                            "editor"
+                        ).value = `// ${data.filename}
+${data.file}`;
                     })
                     .catch(error => {
                         document.getElementById("content").innerText =
@@ -233,9 +298,65 @@
                     updateCount();
                 });
         </script>
+        <div class="w-full relative">
+            <div
+                id="pd-basic-modal"
+                class="pd-overlay hidden w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto"
+            >
+                <div
+                    class="opacity-0 ease-out sm:max-w-lg sm:w-full m-5 sm:mx-auto modal-open:opacity-100 transition-all modal-open:duration-700 lg:max-w-6xl lg:w-full m-3 lg:mx-auto"
+                >
+                    <div class="flex flex-col bg-white py-4 px-5">
+                        <button
+                            class="self-end block cursor-pointer close-modal-button"
+                            data-pd-overlay="#pd-basic-modal"
+                            data-modal-target="pd-basic-modal"
+                        >
+                            <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M7.75732 7.75739L16.2426 16.2427M16.2426 7.75739L7.75732 16.2427"
+                                    stroke="black"
+                                    stroke-width="1.6"
+                                    stroke-linecap="round"
+                                ></path>
+                            </svg>
+                        </button>
+
+                        <div class="overflow-y-auto py-4 min-h-[200px]">
+                            <img
+                                src="./resources/Screenshot 2024-09-13 at 18.41.20.png"
+                            />
+                        </div>
+                        <div
+                            class="flex items-center justify-end pt-4"
+                        >
+                            <button
+                                type="button"
+                                class="inline-flex items-center ring-4 ring-black hover:bg-black hover:text-white disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-black font-medium text-sm px-5 py-2.5 text-center mb-2 close-modal-button"
+                                data-pd-overlay="#pd-basic-modal"
+                                data-modal-target="pd-basic-modal"
+                            >
+                                Got it
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                id="backdrop"
+                class="fixed hidden top-0 left-0 w-full h-full bg-black/50 z-[50]"
+            ></div>
+        </div>
+
+        <!-- background -->
         <div
             class="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]"
         ></div>
-        <!-- <div class="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div> -->
     </body>
 </html>

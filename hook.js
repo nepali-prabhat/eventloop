@@ -1,6 +1,7 @@
+import Path from "path";
 import chalk from "chalk";
 import { createHook } from "async_hooks";
-import { writeSync, writeFileSync } from "fs";
+import { readFileSync, writeSync, writeFileSync, unlinkSync } from "fs";
 import { Map, List } from "immutable";
 
 let asyncIdTypeMap = {};
@@ -21,17 +22,24 @@ function updateState(asyncId, value) {
     }
 }
 
+let renames = {
+    Timeout: "timeout",
+    TickObject: "next tick",
+    Immediate: "immediate",
+    PROMISE: "promise",
+};
+
 function pushAsyncData(data) {
     asyncData.push(asyncData[asyncData.length - 1].push(Map(data)));
 }
 const hook = createHook({
     init(asyncId, type, triggerAsyncId, resource) {
-        const discardedTypes = ["TickObject"];
+        const discardedTypes = [];
         if (!discardedTypes.includes(type)) {
             asyncIdTypeMap[asyncId] = `${type}`;
             pushAsyncData({
                 id: asyncId,
-                type: type,
+                type: renames[type] || type,
                 triggerAsyncId: triggerAsyncId,
                 state: "init",
             });
@@ -109,5 +117,12 @@ ${relations.join("\n")}
 }
 
 process.on("exit", function () {
-    writeFileSync("./data.txt", JSON.stringify(asyncData.map(generateDotGraph)));
+    writeFileSync(
+        "./data.json",
+        JSON.stringify({
+            asyncData: asyncData.map(generateDotGraph),
+            file: readFileSync(process.argv[1]).toString(),
+            filename: (Path.parse(process.argv[1])).base,
+        })
+    );
 });
