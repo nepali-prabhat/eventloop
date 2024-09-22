@@ -13,8 +13,4 @@ process.nextTick(()=>{
     console.log("nt1")
 })
 
-new Promise((res)=>res(1)).then(() => {
-  console.log('Microtasks: Promise');
-});
-
 console.log("main");

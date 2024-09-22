@@ -5,6 +5,8 @@ import { createHook } from "async_hooks";
 import { readFileSync, writeSync, writeFileSync, unlinkSync } from "fs";
 import { Map, List } from "immutable";
 
+import discardedTypes from "./discardedTypes.js";
+
 let asyncIdTypeMap = {};
 let asyncData = [List([])];
 
@@ -35,7 +37,6 @@ function pushAsyncData(data) {
 }
 const hook = createHook({
     init(asyncId, type, triggerAsyncId, resource) {
-        const discardedTypes = ["FSREQCALLBACK"];
         if (!discardedTypes.includes(type)) {
             asyncIdTypeMap[asyncId] = `${type}`;
             pushAsyncData({

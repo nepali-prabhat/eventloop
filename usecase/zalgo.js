@@ -1,13 +1,17 @@
+import {console} from "../utils.js";
 import { URL } from "node:url";
 import { readFile } from "fs";
-const cache = {};
 
-//Reads file either from file system or cache
+const cache = {}; // names.txt: "aashma"
+
+// Reads file either from file system or cache
 function zalgoRead(fileName, cb) {
     const file = cache[fileName];
     if (file) {
         console.log("reading from cache");
-        cb(null, file);
+        process.nextTick(()=>{
+            cb(null, file);
+        })
     } else {
         readFile(fileName, (err, data) => {
             if (err) {
@@ -42,5 +46,10 @@ const dataFile = new URL("./data.txt", import.meta.url);
 const readerHandler = reader(dataFile);
 readerHandler.addListener((err, data) => {
     console.log(`First read: ${data}`);
-});
 
+    const readerHandler2 = reader(dataFile); // synchronous ( read from cache -> call a function )
+    readerHandler2.addListener((err, data)=>{
+        console.log(`SECOND READ: ${data}`);
+    })
+
+});
