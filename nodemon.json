@@ -1,0 +1,4 @@
+{
+  "watch": ["public/**"],
+  "exec": "browser-sync start --proxy 'localhost:8080' --files './public/**/*"
+}

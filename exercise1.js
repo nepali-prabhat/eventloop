@@ -1,4 +1,5 @@
-import "./hook.js";
+import {console} from "./utils/index.js";
+
 setImmediate(()=>{
     console.log("immediate")
 })

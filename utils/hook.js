@@ -1,4 +1,5 @@
 import Path from "path";
+import {URL} from "node:url";
 import chalk from "chalk";
 import { createHook } from "async_hooks";
 import { readFileSync, writeSync, writeFileSync, unlinkSync } from "fs";
@@ -34,7 +35,7 @@ function pushAsyncData(data) {
 }
 const hook = createHook({
     init(asyncId, type, triggerAsyncId, resource) {
-        const discardedTypes = [];
+        const discardedTypes = ["FSREQCALLBACK"];
         if (!discardedTypes.includes(type)) {
             asyncIdTypeMap[asyncId] = `${type}`;
             pushAsyncData({
@@ -118,7 +119,7 @@ ${relations.join("\n")}
 
 process.on("exit", function () {
     writeFileSync(
-        "./data.json",
+        new URL("../outputs/data.json", import.meta.url),
         JSON.stringify({
             asyncData: asyncData.map(generateDotGraph),
             file: readFileSync(process.argv[1]).toString(),

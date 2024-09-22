@@ -1,4 +1,4 @@
-import "./hook.js";
+import {console} from "./utils/index.js";
 
 setTimeout(() => {
     console.log("t1");
