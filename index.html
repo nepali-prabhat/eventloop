@@ -162,41 +162,37 @@
                         href="node_modules/@vanillawc/wc-codemirror/theme/gruvbox-dark.css"
                     />
                 </wc-codemirror>
-
-                            <wc-codemirror
-                                id="output"
-                                line-numbers
-                                theme="gruvbox-dark"
-                            >
-                                <link
-                                    rel="stylesheet"
-                                    href="node_modules/@vanillawc/wc-codemirror/theme/gruvbox-dark.css"
-                                />
-                            </wc-codemirror>
+                <p>Output:</p>
+                <wc-codemirror id="output" line-numbers theme="gruvbox-dark">
+                    <link
+                        rel="stylesheet"
+                        href="node_modules/@vanillawc/wc-codemirror/theme/gruvbox-dark.css"
+                    />
+                </wc-codemirror>
             </div>
 
             <div class="flex-1 relative">
                 <div id="content"></div>
-                <div class="flex fixed bottom-0 right-0 ">
-                <button
-                    type="button"
-                    class="flex flex-col items-center right-2 modal-button group px-2 py-2 font-md cursor-pointer bg-black text-white hover:bg-white hover:text-black hover:ring-4 hover:ring-black"
-                    data-pd-overlay="#pd-basic-modal"
-                    data-modal-target="pd-basic-modal"
-                    data-modal-toggle="pd-basic-modal"
-                >
-                    Event Loop Image
-                </button>
-                <!-- <button -->
-                <!--     type="button" -->
-                <!--     class="flex flex-col items-center right-2 modal-button group px-2 py-2 font-md cursor-pointer bg-black text-white hover:bg-white hover:text-black hover:ring-4 hover:ring-black" -->
-                <!--     data-pd-overlay="#pd-console-modal" -->
-                <!--     data-modal-target="pd-console-modal" -->
-                <!--     data-modal-toggle="pd-console-modal" -->
-                <!--     id="console-btn" -->
-                <!-- > -->
-                <!--     Console -->
-                <!-- </button> -->
+                <div class="flex fixed bottom-0 right-0">
+                    <button
+                        type="button"
+                        class="flex flex-col items-center right-2 modal-button group px-2 py-2 font-md cursor-pointer bg-black text-white hover:bg-white hover:text-black hover:ring-4 hover:ring-black"
+                        data-pd-overlay="#pd-basic-modal"
+                        data-modal-target="pd-basic-modal"
+                        data-modal-toggle="pd-basic-modal"
+                    >
+                        Event Loop Image
+                    </button>
+                    <!-- <button -->
+                    <!--     type="button" -->
+                    <!--     class="flex flex-col items-center right-2 modal-button group px-2 py-2 font-md cursor-pointer bg-black text-white hover:bg-white hover:text-black hover:ring-4 hover:ring-black" -->
+                    <!--     data-pd-overlay="#pd-console-modal" -->
+                    <!--     data-modal-target="pd-console-modal" -->
+                    <!--     data-modal-toggle="pd-console-modal" -->
+                    <!--     id="console-btn" -->
+                    <!-- > -->
+                    <!--     Console -->
+                    <!-- </button> -->
                 </div>
             </div>
         </section>
