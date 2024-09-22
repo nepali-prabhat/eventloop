@@ -162,6 +162,17 @@
                         href="node_modules/@vanillawc/wc-codemirror/theme/gruvbox-dark.css"
                     />
                 </wc-codemirror>
+
+                            <wc-codemirror
+                                id="output"
+                                line-numbers
+                                theme="gruvbox-dark"
+                            >
+                                <link
+                                    rel="stylesheet"
+                                    href="node_modules/@vanillawc/wc-codemirror/theme/gruvbox-dark.css"
+                                />
+                            </wc-codemirror>
             </div>
 
             <div class="flex-1 relative">
@@ -176,16 +187,16 @@
                 >
                     Event Loop Image
                 </button>
-                <button
-                    type="button"
-                    class="flex flex-col items-center right-2 modal-button group px-2 py-2 font-md cursor-pointer bg-black text-white hover:bg-white hover:text-black hover:ring-4 hover:ring-black"
-                    data-pd-overlay="#pd-console-modal"
-                    data-modal-target="pd-console-modal"
-                    data-modal-toggle="pd-console-modal"
-                    id="console-btn"
-                >
-                    Console
-                </button>
+                <!-- <button -->
+                <!--     type="button" -->
+                <!--     class="flex flex-col items-center right-2 modal-button group px-2 py-2 font-md cursor-pointer bg-black text-white hover:bg-white hover:text-black hover:ring-4 hover:ring-black" -->
+                <!--     data-pd-overlay="#pd-console-modal" -->
+                <!--     data-modal-target="pd-console-modal" -->
+                <!--     data-modal-toggle="pd-console-modal" -->
+                <!--     id="console-btn" -->
+                <!-- > -->
+                <!--     Console -->
+                <!-- </button> -->
                 </div>
             </div>
         </section>
@@ -238,61 +249,60 @@
                     </div>
                 </div>
             </div>
-            <div
-                id="pd-console-modal"
-                class="pd-overlay hidden w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto"
-            >
-                <div
-                    class="opacity-0 ease-out sm:max-w-lg sm:w-full m-5 sm:mx-auto modal-open:opacity-100 transition-all modal-open:duration-700 lg:max-w-6xl lg:w-full m-3 lg:mx-auto"
-                >
-                    <div class="flex flex-col bg-white py-4 px-5">
-                        <button
-                            class="self-end block cursor-pointer close-modal-button"
-                            data-pd-overlay="#pd-console-modal"
-                            data-modal-target="pd-console-modal"
-                        >
-                            <svg
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M7.75732 7.75739L16.2426 16.2427M16.2426 7.75739L7.75732 16.2427"
-                                    stroke="black"
-                                    stroke-width="1.6"
-                                    stroke-linecap="round"
-                                ></path>
-                            </svg>
-                        </button>
+            <!-- <div -->
+            <!--     id="pd-console-modal" -->
+            <!--     class="pd-overlay hidden w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto" -->
+            <!-- > -->
+            <!--     <div -->
+            <!--         class="opacity-0 ease-out sm:max-w-lg sm:w-full m-5 sm:mx-auto modal-open:opacity-100 transition-all modal-open:duration-700 lg:max-w-6xl lg:w-full m-3 lg:mx-auto" -->
+            <!--     > -->
+            <!--         <div class="flex flex-col bg-white py-4 px-5"> -->
+            <!--             <button -->
+            <!--                 class="self-end block cursor-pointer close-modal-button" -->
+            <!--                 data-pd-overlay="#pd-console-modal" -->
+            <!--                 data-modal-target="pd-console-modal" -->
+            <!--             > -->
+            <!--                 <svg -->
+            <!--                     width="24" -->
+            <!--                     height="24" -->
+            <!--                     viewBox="0 0 24 24" -->
+            <!--                     fill="none" -->
+            <!--                     xmlns="http://www.w3.org/2000/svg" -->
+            <!--                 > -->
+            <!--                     <path -->
+            <!--                         d="M7.75732 7.75739L16.2426 16.2427M16.2426 7.75739L7.75732 16.2427" -->
+            <!--                         stroke="black" -->
+            <!--                         stroke-width="1.6" -->
+            <!--                         stroke-linecap="round" -->
+            <!--                     ></path> -->
+            <!--                 </svg> -->
+            <!--             </button> -->
 
-                        <div class="overflow-y-auto py-4 min-h-[200px]">
-                            <wc-codemirror
-                                id="output"
-                                line-numbers
-                                theme="gruvbox-dark"
-                            >
-                                <link
-                                    rel="stylesheet"
-                                    href="node_modules/@vanillawc/wc-codemirror/theme/gruvbox-dark.css"
-                                />
-                            </wc-codemirror>
-                            <p> ^ click on the black bar to reveal </p>
-                        </div>
-                        <div class="flex items-center justify-end pt-4">
-                            <button
-                                type="button"
-                                class="inline-flex items-center ring-4 ring-black hover:bg-black hover:text-white disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-white font-medium text-sm px-5 py-2.5 text-center mb-2 close-modal-button"
-                                data-pd-overlay="#pd-console-modal"
-                                data-modal-target="pd-console-modal"
-                            >
-                                Got it
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!--             <div class="overflow-y-auto py-4 min-h-[200px]"> -->
+            <!--                 <wc-codemirror -->
+            <!--                     id="output" -->
+            <!--                     line-numbers -->
+            <!--                     theme="gruvbox-dark" -->
+            <!--                 > -->
+            <!--                     <link -->
+            <!--                         rel="stylesheet" -->
+            <!--                         href="node_modules/@vanillawc/wc-codemirror/theme/gruvbox-dark.css" -->
+            <!--                     /> -->
+            <!--                 </wc-codemirror> -->
+            <!--             </div> -->
+            <!--             <div class="flex items-center justify-end pt-4"> -->
+            <!--                 <button -->
+            <!--                     type="button" -->
+            <!--                     class="inline-flex items-center ring-4 ring-black hover:bg-black hover:text-white disabled:text-gray-400 disabled:ring-gray-500 focus:ring-4 focus:outline-none focus:ring-white font-medium text-sm px-5 py-2.5 text-center mb-2 close-modal-button" -->
+            <!--                     data-pd-overlay="#pd-console-modal" -->
+            <!--                     data-modal-target="pd-console-modal" -->
+            <!--                 > -->
+            <!--                     Got it -->
+            <!--                 </button> -->
+            <!--             </div> -->
+            <!--         </div> -->
+            <!--     </div> -->
+            <!-- </div> -->
             <div
                 id="backdrop"
                 class="fixed hidden top-0 left-0 w-full h-full bg-black/50 z-[50]"

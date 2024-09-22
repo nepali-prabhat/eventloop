@@ -1,4 +1,4 @@
-import {console} from "./utils/index.js";
+import {console} from "../utils.js";
 
 setTimeout(() => {
     console.log("t1");

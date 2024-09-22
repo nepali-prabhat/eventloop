@@ -1,4 +1,4 @@
-import {console} from "./utils/index.js";
+import {console} from "../utils.js";
 
 setImmediate(()=>{
     console.log("immediate")
